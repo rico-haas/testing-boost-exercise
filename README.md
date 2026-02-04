@@ -1,5 +1,7 @@
 # SIDEMADE - Simple Dense Matrix Decomposition
 
+[![Boost Test Exercise CI](https://github.com/rico-haas/testing-boost-exercise/actions/workflows/ci.yml/badge.svg)](https://github.com/rico-haas/testing-boost-exercise/actions/workflows/ci.yml)
+
 A simple demo code to read dense matrices from files and solve linear systems with them.
 
 ## Folder Structure

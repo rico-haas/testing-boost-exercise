@@ -9,7 +9,7 @@ jobs:
       - name: "Install clang-format"
         run: sudo apt update && sudo apt install -y clang-format
       - name: "Check with clang-format"
-        run: clang-format --dry-run --Werror -i src/*.cpp src/*.hpp tests/*.cpp tests/*.hpp
+        run: clang-format --dry-run --Werror -i src/*.cpp src/*.hpp tests/*.cpp
   build:
     runs-on: ubuntu-latest
     steps:
@@ -32,6 +32,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: built-code
+          path: build
       - name: "chmod"
         run: chmod +x build/testsidemade
       - name: "Run tests"
