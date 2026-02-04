@@ -34,6 +34,6 @@ jobs:
           name: built-code
           path: build
       - name: "chmod"
-        run: chmod +x build/testsidemade
+        run: chmod -R +x build
       - name: "Run tests"
         run: ctest --test-dir build --output-on-failure
