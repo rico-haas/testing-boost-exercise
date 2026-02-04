@@ -1,0 +1,41 @@
+name: "Boost Test Exercise CI"
+on: [push]
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: "Install clang-format"
+        run: sudo apt update && sudo apt install -y clang-format
+      - name: "Check with clang-format"
+        run: clang-format --dry-run --Werror -i src/*.cpp src/*.hpp tests/*.cpp
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: "Install libraries"
+        run: sudo apt update && sudo apt install -y libeigen3-dev libyaml-cpp-dev libboost-test-dev
+      - name: "Build"
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && make -C build
+      - name: "Upload built code"
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-code
+          path: build
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: "Install libraries"
+        run: sudo apt update && sudo apt install -y libeigen3-dev libyaml-cpp-dev libboost-test-dev
+      - name: "Download built code"
+        uses: actions/download-artifact@v4
+        with:
+          name: built-code
+          path: build
+      - name: "chmod"
+        run: chmod -R +x build
+      - name: "Run tests"
+        run: ctest --test-dir build --output-on-failure
